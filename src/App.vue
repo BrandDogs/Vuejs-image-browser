@@ -1,21 +1,36 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <hello>
-
-    </hello>
+    <image-viewer v-on:save="syncSelectedImages"></image-viewer>
   </div>
 </template>
 
 <script>
-import Picture from './components/Picture'
 
-import Hello from './components/Hello'
+import Picture from './components/Picture'
+import ImageViewer from './components/ImageViewer'
 
 export default {
   name: 'app',
   components: {
-    Hello
+    ImageViewer
+  },
+	data () {
+		return {
+
+			selected:[]
+
+		}
+	},
+  methods:{
+
+	  syncSelectedImages(images){
+
+	  	this.selected = [];
+
+	  	this.selected.push(images);
+
+    }
   }
 }
 </script>

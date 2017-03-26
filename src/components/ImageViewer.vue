@@ -1,7 +1,6 @@
 <template>
-	<div class="hello">
-		<h1>{{ msg }}</h1>
-		<h2>Image viewer</h2>
+	<div class="image-viewer-app">
+		<h1 class="title is-1">Image viewer</h1>
 		<div class="modal" v-bind:class="{active : modal}">
 			<div class="modal-background"></div>
 			<div class="modal-card">
@@ -24,7 +23,8 @@
 					<!-- Content ... -->
 				</section>
 				<footer class="modal-card-foot">
-					<a class="button is-success" v-on:click="modal = false;">Save changes</a> <a class="button" v-on:click="resetState">Cancel</a>
+					<a class="button is-success" v-on:click="save">Save changes</a>
+					<a class="button" v-on:click="resetState">Cancel</a>
 				</footer>
 			</div>
 		</div>
@@ -43,19 +43,16 @@
 <script>
 
 import Vue from 'vue'
-
 import Picture from './Picture'
-
 
 export default {
 
-  components:{
-    Picture
-  },
+  components:{ Picture},
   name: 'hello',
+
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
+
       images: [
 
         {'id':1, 'title':'image-1', 'url': '/static/boot-holland.png'},
@@ -73,14 +70,7 @@ export default {
   methods:{
 
     activateModal(){
-      let that = this;
-
-      if(that.modal){
-        that.modal = false;
-      }else{
-        that.modal = true;
-      }
-
+	     (this.modal == false ? this.modal = true : this.modal = false);
     },
 
     imageSelected(image) {
@@ -92,14 +82,23 @@ export default {
     },
     
     resetState(){
+
     	let that = this;
-			
+
 	    that.modal = false;
 	    that.selectedImages = [];
 
 	    for (let image of that.$children) {
 		    image.selected = false;
 	    }
+    },
+
+    save(){
+
+    	this.modal = false;
+
+	    this.$emit('save', this.selectedImages)
+
     }
 
   }
